@@ -9,25 +9,25 @@ using Records.Application.Interfaces;
 
 namespace Records.Application.Records.Queries.GetRecordList
 {
-    public class GetNoteListQueryHandler 
+    public class GetRecordListQueryHandler 
         : IRequestHandler<GetRecordListQuery, RecordListVm>
     {
         private readonly IRecordsDbContext _dbContext;
         private readonly IMapper _mapper;
 
-        public GetNoteListQueryHandler(IRecordsDbContext dbContext,
+        public GetRecordListQueryHandler(IRecordsDbContext dbContext,
             IMapper mapper) =>
             (_dbContext, _mapper) = (dbContext, mapper);
 
         public async Task<RecordListVm> Handle(GetRecordListQuery request,
             CancellationToken cancellationToken)
         {
-            var notesQuery = await _dbContext.Records
+            var recordsQuery = await _dbContext.Records
                 .Where(record => record.UserId == request.UserId)
                 .ProjectTo<RecordLookupDto>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
-            return new RecordListVm { Records = notesQuery };
+            return new RecordListVm { Records = recordsQuery };
         }
     }
 }

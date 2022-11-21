@@ -1,5 +1,5 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
+using System;
 using Records.Application.Common.Mappings;
 using Records.Domain;
 
@@ -13,10 +13,10 @@ namespace Records.Application.Records.Queries.GetRecordList
         public void Mapping(Profile profile)
         {
             profile.CreateMap<Record, RecordLookupDto>()
-                .ForMember(noteDto => noteDto.Id,
-                    opt => opt.MapFrom(note => note.Id))
-                .ForMember(noteDto => noteDto.Title,
-                    opt => opt.MapFrom(note => note.Title));
+                .ForMember(recordDto => recordDto.Id,
+                    opt => opt.MapFrom(record => record.Id))
+                .ForMember(recordDto => recordDto.Title,
+                    opt => opt.MapFrom(record => record.Title));
         }
     }
 }
