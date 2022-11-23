@@ -13,4 +13,8 @@
     <ProjectReference Include="..\Records.Persistence\Records.Persistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Middleware\" />
+  </ItemGroup>
+
 </Project>

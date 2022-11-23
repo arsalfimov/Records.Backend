@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Records.Application.Interfaces;
 using Records.Application;
 using Records.Persistence;
+using Records.WebApi.Middleware;
 
 namespace Records.WebApi
 {
@@ -48,6 +49,7 @@ namespace Records.WebApi
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCustomExceptionHandler();
             app.UseRouting();
             app.UseHttpsRedirection();
             app.UseCors("AllowAll");
