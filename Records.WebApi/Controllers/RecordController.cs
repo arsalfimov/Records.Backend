@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Records.Application.Records.Queries.GetRecordList;
 using Records.Application.Records.Queries.GetRecordDetails;
 using Records.Application.Records.Commands.CreateRecord;
@@ -20,6 +20,7 @@ namespace Records.WebApi.Controllers
         public RecordController(IMapper mapper) => _mapper = mapper;
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<RecordListVm>> GetAll()
         {
             var query = new GetRecordListQuery
@@ -30,8 +31,9 @@ namespace Records.WebApi.Controllers
             return Ok(vm);
         }
 
-        [HttpGet]
-        public async Task<ActionResult<RecordDetailsVm>> Get(Guid id)
+		[HttpGet("{id}")]
+		[Authorize]
+		public async Task<ActionResult<RecordDetailsVm>> Get(Guid id)
         {
             var query = new GetRecordDetailsQuery
             {
@@ -43,7 +45,8 @@ namespace Records.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Guid>> Create([FromBody] CreateRecordDto createRecordDto)
+		[Authorize]
+		public async Task<ActionResult<Guid>> Create([FromBody] CreateRecordDto createRecordDto)
         {
             var command = _mapper.Map<CreateRecordCommand>(createRecordDto);
             command.UserId = UserId;
@@ -52,7 +55,8 @@ namespace Records.WebApi.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] UpdateRecordDto updateRecordDto)
+		[Authorize]
+		public async Task<IActionResult> Update([FromBody] UpdateRecordDto updateRecordDto)
         {
             var command = _mapper.Map<UpdateRecordCommand>(updateRecordDto);
             command.UserId = UserId;
@@ -61,7 +65,8 @@ namespace Records.WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
+		[Authorize]
+		public async Task<IActionResult> Delete(Guid id)
         {
             var command = new DeleteRecordCommand
             {
